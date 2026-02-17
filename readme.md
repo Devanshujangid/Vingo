@@ -1,4 +1,4 @@
-# 🍴 Food Delivery Web Application (MERN Stack)
+# 🍴 VINGO – Food Delivery Web Application
 
 A full-stack **Food Delivery Platform** built using the **MERN stack**, inspired by apps like **Zomato/Swiggy**. It enables users to browse restaurants, place food orders, make secure payments, and track deliveries in **real-time** with live location updates.
 
@@ -48,4 +48,4 @@ A full-stack **Food Delivery Platform** built using the **MERN stack**, inspired
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/Raghvendrasharma1708/Food-Delivery-Website.git
+git clone https://github.com/Devanshujangid/Vingo
