@@ -31,7 +31,7 @@ import { setConnectionState } from './redux/userSlice';
 // export const serverUrl = "http://localhost:8000";
 
 function App() {
-const { userData } = useSelector(state => state.user);
+  const { userData, authLoading } = useSelector(state => state.user);
   const dispatch = useDispatch();
   useGetCurrentUser();
   useUpdateLocation();
@@ -42,8 +42,6 @@ const { userData } = useSelector(state => state.user);
   useGetMyOrders();
 
   useEffect(() => {
-    // --- THE MAIN LOGIC CHANGE IS HERE ---
-
     // Don't connect if we don't have a user
     if (!userData) return;
 
@@ -53,16 +51,13 @@ const { userData } = useSelector(state => state.user);
     // Listener for when connection is established
     socket.on('connect', () => {
       console.log('Socket connected:', socket.id);
-      // Dispatch a simple boolean to Redux
       dispatch(setConnectionState(true)); 
-      // Identify user to the server
       socket.emit('identity', { userId: userData._id });
     });
 
     // Listener for disconnection
     socket.on('disconnect', () => {
       console.log('Socket disconnected');
-      // Dispatch a simple boolean to Redux
       dispatch(setConnectionState(false));
     });
 
@@ -70,7 +65,15 @@ const { userData } = useSelector(state => state.user);
     return () => {
       socket.disconnect();
     };
-  }, [userData, dispatch]); // Rerun effect if userData changes
+  }, [userData, dispatch]);
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <Routes>
@@ -87,6 +90,7 @@ const { userData } = useSelector(state => state.user);
       <Route path='/my-orders' element={userData ? <MyOrders /> : <Navigate to={"/signin"} />} />
       <Route path='/track-order/:orderId' element={userData ? <TrackOrderPage /> : <Navigate to={"/signin"} />} />
       <Route path='/shop/:shopId' element={userData ? <Shop /> : <Navigate to={"/signin"} />} />
+      <Route path='*' element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

@@ -128,12 +128,16 @@ const userSlice = createSlice({
     // REMOVE the socket property
     // socket: null, 
     // ADD a property to track connection status
-    isConnected: false
-    // --- CHANGES END HERE ---
+    isConnected: false,
+    authLoading: true
   },
   reducers: {
     setUserData: (state, action) => {
-      state.userData = action.payload
+      state.userData = action.payload;
+      state.authLoading = false;
+    },
+    setAuthLoading: (state, action) => {
+      state.authLoading = action.payload;
     },
     setCurrentCity: (state, action) => {
       state.currentCity = action.payload
@@ -220,5 +224,5 @@ const userSlice = createSlice({
 
 // --- FINAL CHANGE HERE ---
 // Update the exported actions
-export const { setUserData, setCurrentAddress, setCurrentCity, setCurrentState, setShopsInMyCity, setItemsInMyCity, addToCart, updateQuantity, removeCartItem, setMyOrders, addMyOrder, updateOrderStatus, setSearchItems, setTotalAmount, setConnectionState, updateRealtimeOrderStatus } = userSlice.actions;
+export const { setUserData, setAuthLoading, setCurrentAddress, setCurrentCity, setCurrentState, setShopsInMyCity, setItemsInMyCity, addToCart, updateQuantity, removeCartItem, setMyOrders, addMyOrder, updateOrderStatus, setSearchItems, setTotalAmount, setConnectionState, updateRealtimeOrderStatus } = userSlice.actions;
 export default userSlice.reducer;
